@@ -6,6 +6,9 @@ API_BASE_URL = "http://api.crunchbase.com"
 API_VERSION  = "1"
 API_URL      = API_BASE_URL + "/v/" + API_VERSION
 
+'''
+The crunchbase class
+'''
 class CrunchBase:
 
     def __init__(self):
