@@ -1,78 +1,94 @@
+"""
+Python library for the crunchbase api.
+Copyright (c) 2010 Apurva Mehta <mehta.apurva@gmail.com>
+
+"""
+
+__author__  = 'Apurva Mehta'
+__version__ = '1.0'
+
+
 import urllib2
 import urllib
 import simplejson as json
 
-API_BASE_URL = "http://api.crunchbase.com"
+API_BASE_URL = "http://api.crunchbase.com/"
 API_VERSION  = "1"
-API_URL      = API_BASE_URL + "/v/" + API_VERSION
+API_URL      = API_BASE_URL + "v" + "/" + API_VERSION + "/"
 
-'''
-The crunchbase class
-'''
 class crunchbase:
 
   def __init__(self):
-      return None
+    return None
 
   def __webRequest(self, url):
+    try:      
       response = urllib2.urlopen(url)
-      return response.read()
+      result = response.read()
+      return result
+    except urllib2.HTTPError:
+      print "Bad API Request to", url
 
-  def getCompanyData(self, company):
-      queryUrl = API_URL + "/company/" + company + ".js"
-      jsonResult = self.__webRequest(queryUrl)
-      queryResult = json.loads(jsonResult)
-      return queryResult
+  def __getJsonData(self, namespace, query=""):
+    url = API_URL + namespace + query + ".js"
+    return self.__webRequest(url)
+
+  def getCompanyData(self, name):
+    '''This returns the data about a company in JSON format.'''
+
+    result = self.__getJsonData("company", name)
+    return result
 
   def getPersonData(self, firstName, lastName):
-      queryUrl = API_URL + "/person/" + firstName + "-" + lastName + ".js"
-      jsonResult = self.__webRequest(queryUrl)
-      queryResult = json.loads(jsonResult)
-      return queryResult
+    '''This returns the data about a person in JSON format.'''
+
+    result = self.__getJsonData("person", "/" + firstName + "-" + lastName)
+    return result
 
   def getFinancialOrgData(self, orgName):
-      queryUrl = API_URL + "/financial-organization/" + orgName + ".js"
-      jsonResult = self.__webRequest(queryUrl)
-      queryResult = json.loads(jsonResult)
-      return queryResult
-  def getProductData(self, product):
-      queryUrl = API_URL + "/product/" + product + ".js"
-      jsonResult = self.__webRequest(queryUrl)
-      queryResult = json.loads(jsonResult)
-      return queryResult
+    '''This returns the data about a financial organization in JSON format.'''
+
+    result = self.__getJsonData("financial-organization", "/" + orgName)
+    return result
+
+  def getProductData(self, name):
+    '''This returns the data about a product in JSON format.'''
+
+    result = self.__getJsonData("product", name)
+    return result
 
   def getServiceProviderData(self, name):
-      queryUrl = API_URL + "/service-provider/" + name + ".js"
-      jsonResult = self.__webRequest(queryUrl)
-      queryResult = json.loads(jsonResult)
-      return queryResult
+    '''This returns the data about a service provider in JSON format.'''
+
+    result = self.__getJsonData("service-provider", "/" + name)
+    return result
 
   def listCompanies(self):
-      queryUrl = API_URL + "/companies" + ".js"
-      jsonResult = self.__webRequest(queryUrl)
-      queryResult = json.loads(jsonResult)
-      return queryResult
+    '''This returns the list of companies in JSON format.'''
+
+    result = self.__getJsonData("companies")
+    return result
 
   def listPeople(self):
-      queryUrl = API_URL + "/people" + ".js"
-      jsonResult = self.__webRequest(queryUrl)
-      queryResult = json.loads(jsonResult)
-      return queryResult
+    '''This returns the list of people in JSON format.'''
+
+    result = self.__getJsonData("people")
+    return result
 
   def listFinancialOrgs(self):
-      queryUrl = API_URL + "/financial-organizations" + ".js"
-      jsonResult = self.__webRequest(queryUrl)
-      queryResult = json.loads(jsonResult)
-      return queryResult
+    '''This returns the list of financial organizations in JSON format.'''
+
+    result = self.__getJsonData("financial-organizations")
+    return result
 
   def listProducts(self):
-      queryUrl = API_URL + "/products" + ".js"
-      jsonResult = self.__webRequest(queryUrl)
-      queryResult = json.loads(jsonResult)
-      return queryResult
+    '''This returns the list of products in JSON format.'''
+
+    result = self.__getJsonData("products")
+    return result
 
   def listServiceProviders(self):
-      queryUrl = API_URL + "/service-providers" + ".js"
-      jsonResult = self.__webRequest(queryUrl)
-      queryResult = json.loads(jsonResult)
-      return queryResult
+    '''This returns the list of service providers in JSON format.'''
+
+    result = self.__getJsonData("service-providers")
+    return result
