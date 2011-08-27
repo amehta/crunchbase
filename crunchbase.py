@@ -5,7 +5,7 @@ Copyright (c) 2010 Apurva Mehta <mehta.apurva@gmail.com>
 """
 
 __author__  = 'Apurva Mehta'
-__version__ = '1.0'
+__version__ = '1.0.1'
 
 
 import urllib2
@@ -22,7 +22,7 @@ class crunchbase:
     return None
 
   def __webRequest(self, url):
-    try:      
+    try:
       response = urllib2.urlopen(url)
       result = response.read()
       return result
@@ -39,10 +39,10 @@ class crunchbase:
     result = self.__getJsonData("company", name)
     return result
 
-  def getPersonData(self, firstName, lastName):
+  def getPersonData(self, *args):
     '''This returns the data about a person in JSON format.'''
 
-    result = self.__getJsonData("person", "/" + firstName + "-" + lastName)
+    result = self.__getJsonData("person", "/%s" % '-'.join(args))
     return result
 
   def getFinancialOrgData(self, orgName):

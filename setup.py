@@ -3,11 +3,11 @@ from distutils.core import setup
 long_description = open('README.md').read()
 
 setup(name="python-crunchbase",
-      version="0.0.2",
+      version="1.0.1",
       py_modules=["crunchbase"],
       description="Libraries for interacting with the Crunchbase API",
-      author="amehta <http://github.com/amehta>",
-      author_email = "none@example.com",
+      author="Apurva Mehta <mehta.apurva@gmail.com>",
+      author_email = "mehta.apurva@gmail.com",
       license="WTFPL",
       url="http://github.com/amehta/crunchbase",
       long_description=long_description,
