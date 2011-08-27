@@ -5,7 +5,7 @@ Copyright (c) 2010 Apurva Mehta <mehta.apurva@gmail.com>
 """
 
 __author__  = 'Apurva Mehta'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 
 
 import urllib2

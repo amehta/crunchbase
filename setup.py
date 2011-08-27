@@ -3,7 +3,7 @@ from distutils.core import setup
 long_description = open('README.md').read()
 
 setup(name="python-crunchbase",
-      version="1.0.1",
+      version="1.0.2",
       py_modules=["crunchbase"],
       description="Libraries for interacting with the Crunchbase API",
       author="Apurva Mehta <mehta.apurva@gmail.com>",
