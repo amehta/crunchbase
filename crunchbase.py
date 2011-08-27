@@ -32,7 +32,7 @@ class crunchbase:
   def __getJsonData(self, namespace, query=""):
     url = API_URL + namespace + query + ".js"
     response_dict = json.loads(self.__webRequest(url))
-    return CrunchBaseResponse(response_dict)
+    return CrunchBaseResponse(**response_dict)
 
   def getCompanyData(self, name):
     '''This returns the data about a company in JSON format.'''
