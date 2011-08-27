@@ -94,6 +94,6 @@ class crunchbase:
     result = self.__getJsonData("service-providers")
     return result
 
-  class CrunchBaseResponse(object):
-      def __init__(self, **entries):
-          self.__dict__.update(entries)
+class CrunchBaseResponse(object):
+  def __init__(self, **entries):
+    self.__dict__.update(entries)
