@@ -26,8 +26,8 @@ class crunchbase:
       response = urllib2.urlopen(url)
       result = response.read()
       return result
-    except urllib2.HTTPError:
-      print "Bad API Request to", url
+    except urllib2.HTTPError as e:
+      raise CrunchBaseError(e)
 
   def __getJsonData(self, namespace, query=""):
     url = API_URL + namespace + query + ".js"
@@ -37,7 +37,7 @@ class crunchbase:
   def getCompanyData(self, name):
     '''This returns the data about a company in JSON format.'''
 
-    result = self.__getJsonData("company", name)
+    result = self.__getJsonData("company", "/%s" % name)
     return result
 
   def getPersonData(self, *args):
@@ -49,7 +49,7 @@ class crunchbase:
   def getFinancialOrgData(self, orgName):
     '''This returns the data about a financial organization in JSON format.'''
 
-    result = self.__getJsonData("financial-organization", "/" + orgName)
+    result = self.__getJsonData("financial-organization", "/%s" % orgName)
     return result
 
   def getProductData(self, name):
@@ -61,7 +61,7 @@ class crunchbase:
   def getServiceProviderData(self, name):
     '''This returns the data about a service provider in JSON format.'''
 
-    result = self.__getJsonData("service-provider", "/" + name)
+    result = self.__getJsonData("service-provider", "/%s" % name)
     return result
 
   def listCompanies(self):
@@ -95,5 +95,8 @@ class crunchbase:
     return result
 
 class CrunchBaseResponse(object):
-  def __init__(self, **entries):
-    self.__dict__.update(entries)
+  def __init__(self, **kwargs):
+    self.__dict__.update(kwargs)
+
+class CrunchBaseError(Exception):
+  pass
