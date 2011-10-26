@@ -5,7 +5,7 @@ Copyright (c) 2010 Apurva Mehta <mehta.apurva@gmail.com>
 """
 
 __author__  = 'Apurva Mehta'
-__version__ = '1.0'
+__version__ = '1.0.2'
 
 
 import urllib2
@@ -22,33 +22,34 @@ class crunchbase:
     return None
 
   def __webRequest(self, url):
-    try:      
+    try:
       response = urllib2.urlopen(url)
       result = response.read()
       return result
-    except urllib2.HTTPError:
-      print "Bad API Request to", url
+    except urllib2.HTTPError as e:
+      raise CrunchBaseError(e)
 
   def __getJsonData(self, namespace, query=""):
     url = API_URL + namespace + query + ".js"
-    return self.__webRequest(url)
+    response_dict = json.loads(self.__webRequest(url))
+    return CrunchBaseResponse(**response_dict)
 
   def getCompanyData(self, name):
     '''This returns the data about a company in JSON format.'''
 
-    result = self.__getJsonData("company", name)
+    result = self.__getJsonData("company", "/%s" % name)
     return result
 
-  def getPersonData(self, firstName, lastName):
+  def getPersonData(self, *args):
     '''This returns the data about a person in JSON format.'''
 
-    result = self.__getJsonData("person", "/" + firstName + "-" + lastName)
+    result = self.__getJsonData("person", "/%s" % '-'.join(args).lower().replace(' ','-'))
     return result
 
   def getFinancialOrgData(self, orgName):
     '''This returns the data about a financial organization in JSON format.'''
 
-    result = self.__getJsonData("financial-organization", "/" + orgName)
+    result = self.__getJsonData("financial-organization", "/%s" % orgName)
     return result
 
   def getProductData(self, name):
@@ -60,7 +61,7 @@ class crunchbase:
   def getServiceProviderData(self, name):
     '''This returns the data about a service provider in JSON format.'''
 
-    result = self.__getJsonData("service-provider", "/" + name)
+    result = self.__getJsonData("service-provider", "/%s" % name)
     return result
 
   def listCompanies(self):
@@ -92,3 +93,14 @@ class crunchbase:
 
     result = self.__getJsonData("service-providers")
     return result
+
+class CrunchBaseResponse(object):
+  def __init__(self, **kwargs):
+    self.__dict__.update(kwargs)
+
+  def __repr__(self):
+    return '%s(%r)' % (self.__class__.__name__, self.__dict__)
+
+class CrunchBaseError(Exception):
+  pass
+
